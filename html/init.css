@@ -1,0 +1,214 @@
+html{
+    color:#000;
+    background:#f8f8f8;
+    max-width: 700px;
+    width: 100%;
+    margin: auto;
+}
+
+body {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    font-weight: 400;
+    font-size: 16px;
+    padding-bottom: 80px;
+}
+
+h2 {
+    padding-left: 20px;
+}
+
+h3{
+    padding-left: 20px;
+    font-weight: 100;
+    font-size: 1rem
+}
+img#myImg {
+    height: 150px;
+    max-width: 40%;
+    margin-top: 10px;
+}
+img.icon-link, img:not([class]) {
+    padding: 2px;
+    width: 18px;
+    height: 18px;
+    vertical-align: -4px;
+}
+
+video {
+    margin: auto;
+    margin-top: 10px;
+    min-width: 70%;
+}
+.LI {
+    background: white;
+    max-width: 700px;
+    width: 95%;
+    margin: auto;
+    display:block;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding-top: 10px;
+}
+
+b {
+    font-size: 1rem;
+}
+
+.TIME {
+    float:bottom;
+    width: 90%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 17px;
+    padding-right: 10px;
+    font-size: 0.7rem;
+}
+.SAY {
+    width: 95%;
+    padding: -10px;
+    padding-left: 12px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    line-height: 1.5rem;
+    font-size:0.9rem;
+    margin: auto;
+    background: white;
+}
+.REPLY{
+    width: 88%;
+    padding: 20px;
+    padding-top:10px;
+    padding-bottom: 10px;
+    padding-right: 15px;
+    background:#f1f1f1;
+    margin: auto;
+    line-height: 1.3rem;
+    font-size:0.8rem;
+    border-radius: 10px;
+}
+a {
+    color: #3c6e9e;
+    text-decoration: none;
+}
+
+.mblog_video, .quote_video {
+    max-width: 100%;
+}
+
+
+
+#myImg {
+    margin: auto;
+    /* 光标位于图片的时候，展示形式是个小手 */
+    cursor: pointer;
+    transition: 0.3s;
+    max-width: 300px;
+}
+
+
+/* img的hover效果，可以设置透明度 */
+
+#myImg:hover {
+   
+    opacity: 0.5;
+    box-shadow: 0 8px 12px 0 rgba(27, 19, 19, 0.2)
+}
+
+
+/* 弹窗背景 */
+
+.modal {
+  
+    display: none;
+    /* 设置位置，不随屏幕移动而移动 */
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* 图片 */
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 85%;
+    line-height: 20%;
+    max-width: 700px;
+    padding-bottom:150px;
+}
+
+
+/* 添加动画 */
+
+.modal-content, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.3s;
+    animation-name: zoom;
+    animation-duration: 0.4s;
+}
+
+@-webkit-keyframes zoom {
+   
+   
+    from {
+        -webkit-transform: scale(0)
+    }
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes zoom {
+    from {
+
+        transform: scale(0)
+    }
+    to {
+   
+   
+        transform: scale(1)
+    }
+}
+
+
+/* 关闭按钮 */
+
+.close {
+    position: fixed;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    /* 加粗字体 */
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+
+.close:hover,
+.close:focus {
+   
+   
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* 小屏幕中图片宽度为 100%，响应式布局 */
+
+@media only screen and (max-width: 700px) {
+   
+    .modal-content {
+        width: 100%;
+    }
+}
