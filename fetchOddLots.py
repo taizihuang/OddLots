@@ -1,8 +1,8 @@
 import requests,os,json
 import pandas as pd
 from bs4 import BeautifulSoup
-os.environ['https_proxy'] = 'http://127.0.0.1:7890'
-os.environ['http_proxy'] = 'http://127.0.0.1:7890'
+#os.environ['https_proxy'] = 'http://127.0.0.1:7890'
+#os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 
 def fetchOddLots(url,title):
     headers = {
