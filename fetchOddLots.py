@@ -41,11 +41,12 @@ def genHTML(df_odd):
 
     item = ''
     for idx in df_odd.index:
+        date = df_odd.loc[idx,'date']
         link = df_odd.loc[idx,'link']
         html = df_odd.loc[idx,'content']
         title = df_odd.loc[idx,'title']
         name = link.split('/')[-1].split('?')[0]
-        item = item+"""<ul class="LI"><li><a class="title" href="./html/{name}.html">{title}</a></li></ul>""".format(name=name,title=title)
+        item = item+"""<ul class="LI"><li><a class="title" href="./html/{name}.html">[{date}] {title}</a></li></ul>""".format(date=date, name=name,title=title)
         with open('./html/{}.html'.format(name),'w',encoding='utf8') as f:
             f.write(html)
 
