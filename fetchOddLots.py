@@ -11,7 +11,8 @@ def fetchOddLots(url,title):
     docs = requests.get(url,headers=headers).content
     doc = BeautifulSoup(docs)
     doc1 = BeautifulSoup(json.loads(doc.find('script',{'data-component-props':"ArticleBody"}).string)['body'])
-    doc1.find(class_="thirdparty-embed__container").decompose()
+    if doc1.find(class_="thirdparty-embed__container"):
+        doc1.find(class_="thirdparty-embed__container").decompose()
     html = '''
     <!DOCTYPE html>
     <html>
@@ -78,13 +79,15 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'}
 doc = BeautifulSoup(requests.get(url,headers=headers).content)
 df_odd = pd.read_pickle('oddlots.pkl')
-df_odd = pd.DataFrame(columns=['date','title','link','content'])
+#df_odd = pd.DataFrame(columns=['date','title','link','content'])
 for item in doc.findAll(class_='story-list-story__info__headline-link'):
     if 'Transcript' in item.text:
         title = item.text
+        print(title)
         link = 'https://www.bloomberg.com' + item['href']
         df_odd_new = fetchOddLots(link,title=title)
-        df_odd = df_odd.append(df_odd_new,ignore_index=True)
+        df_odd = df_odd_new.append(df_odd,ignore_index=True)
         df_odd = df_odd.drop_duplicates(['title'])
+df_odd = df_odd.sort_values(by=['date'],ascending=False)        
 genHTML(df_odd)
 df_odd.to_pickle('oddlots.pkl')
