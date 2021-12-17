@@ -11,7 +11,7 @@ def fetchOddLots(url,title):
     docs = requests.get(url,headers=headers).content
     doc = BeautifulSoup(docs)
     body = json.loads(doc.find('script',{'data-component-props':"ArticleBody"}).string)
-    if body:
+    if 'body' in body:
         doc1 = BeautifulSoup(body['body'])
         if doc1.find(class_="thirdparty-embed__container"):
             doc1.find(class_="thirdparty-embed__container").decompose()
