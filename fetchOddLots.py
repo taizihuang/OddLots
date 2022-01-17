@@ -10,9 +10,9 @@ def fetchOddLots(url,title):
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'}
     docs = requests.get(url,headers=headers).content
     doc = BeautifulSoup(docs)
-    body = json.loads(doc.find('div',{'data-component-props':"ArticleBody"}).string)
+    body = json.loads(doc.find('script',{'data-component-props':"LeaderboardAd"}).string)
     if 'body' in body:
-        doc1 = BeautifulSoup(body['body'])
+        doc1 = BeautifulSoup(body['story']['body'])
         if doc1.find(class_="thirdparty-embed__container"):
             doc1.find(class_="thirdparty-embed__container").decompose()
     else:
