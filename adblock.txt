@@ -17,6 +17,8 @@ economist.com##.ds-footer
 economist.com##.ds-share-list
 economist.com##.ds-layout-grid.ds-layout-grid--edged.newsletter-signup
 economist.com##.related-articles
+economist.com##.css-12d2uoj.ey1yhxa5
+economist.com##.css-11m9t22.ey1yhxa6
 https://www.economist.com/engassets/_next/static/chunks/main-*.js
 bloomberg.com###graphics-paywall-overlay
 bloomberg.com##.overlay__59af11e2
