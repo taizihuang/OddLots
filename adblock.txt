@@ -137,4 +137,10 @@ journey.newyorker.com/compiler-002fb641a070e352bb3b2d59bc513c7d.js
 https://journey.wired.com/compiler-3c80dcf6eae9db4093a4b974408a82aa.js
 https://www.washingtonpost.com/_next/static/chunks/framework.d58c452dd375b2427ff0.module.js
 https://journey.newyorker.com/compiler-*.js
-https://meter-svc.nytimes.com/meter.js* 
+https://meter-svc.nytimes.com/meter.js*
+wsj.com##.login-section
+wsj.com##.media-object.scope-web\|mobileapps.wrap
+wsj.com##.snippet
+wsj.com##.dynamic-inset-overflow-button
+wsj.com##.dynamic-inset-overflow
+https://cdn.ampproject.org
