@@ -177,6 +177,7 @@ economist.com##.css-mticar.eprz4kh0
 economist.com##.css-drxevm.e1xre6611
 economist.com##.css-kqgbmb.e15ywl7e0
 economist.com##.weekly-edition-section__lede-image
+economist.com##.ds-masthead
 https://wx.zsxq.com
 https://analytics.google.com
 https://weibo.com
