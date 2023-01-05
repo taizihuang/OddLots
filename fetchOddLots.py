@@ -83,6 +83,8 @@ headers = {
     'referer': 'https://www.bloomberg.com/oddlots',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'}
 doc = BeautifulSoup(requests.get(url,headers=headers).content, features="lxml")
+print(doc)
+
 df_odd = pd.read_pickle('oddlots.pkl')
 #df_odd = pd.DataFrame(columns=['date','title','link','content'])
 for item in doc.findAll(class_='story-list-story__info__headline-link'):
