@@ -1,8 +1,8 @@
 import requests,os,json
 import pandas as pd
 from bs4 import BeautifulSoup
-#os.environ['https_proxy'] = 'http://127.0.0.1:7890'
-#os.environ['http_proxy'] = 'http://127.0.0.1:7890'
+# os.environ['https_proxy'] = 'http://127.0.0.1:7890'
+# os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 
 
 def fetchOddLots(url,title):
@@ -37,9 +37,8 @@ def fetchOddLots(url,title):
     '''.format(title=title)
     html = html+str(doc1)+'</body></html>'
 
-    df_odd = pd.DataFrame(columns=['date','title','link','content'])
     date = url.split('/')[5]
-    df_odd = df_odd.append({'date':date,'title':title,'link':url,'content':html},ignore_index=True)
+    df_odd = pd.DataFrame(data={'date':date,'title':title,'link':url,'content':html},index=[0])
 
     return df_odd
 
@@ -83,17 +82,16 @@ headers = {
     'referer': 'https://www.bloomberg.com/oddlots',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'}
 doc = BeautifulSoup(requests.get(url,headers=headers).content, features="lxml")
-print(doc)
 
 df_odd = pd.read_pickle('oddlots.pkl')
-#df_odd = pd.DataFrame(columns=['date','title','link','content'])
+
 for item in doc.findAll(class_='story-list-story__info__headline-link'):
     if 'Transcript' in item.text:
         title = item.text
         print(title)
         link = 'https://www.bloomberg.com' + item['href']
         df_odd_new = fetchOddLots(link,title=title)
-        df_odd = df_odd_new.append(df_odd,ignore_index=True)
+        df_odd = pd.concat([df_odd_new,df_odd],ignore_index=True)
         df_odd = df_odd.drop_duplicates(['title'])
 df_odd = df_odd.sort_values(by=['date'],ascending=False)        
 genHTML(df_odd)
