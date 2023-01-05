@@ -10,10 +10,10 @@ def fetchOddLots(url,title):
         'referer': 'https://www.bloomberg.com/oddlots',
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'}
     docs = requests.get(url,headers=headers).content
-    doc = BeautifulSoup(docs)
+    doc = BeautifulSoup(docs,features="lxml")
     body = json.loads(doc.find('script',{'data-component-props':"LeaderboardAd"}).string)
     if 'story' in body:
-        doc1 = BeautifulSoup(body['story']['body'])
+        doc1 = BeautifulSoup(body['story']['body'],features="lxml")
         if doc1.find(class_="thirdparty-embed__container"):
             doc1.find(class_="thirdparty-embed__container").decompose()
     else:
@@ -82,7 +82,7 @@ url = 'https://www.bloomberg.com/oddlots'
 headers = {
     'referer': 'https://www.bloomberg.com/oddlots',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'}
-doc = BeautifulSoup(requests.get(url,headers=headers).content)
+doc = BeautifulSoup(requests.get(url,headers=headers).content, features="lxml")
 df_odd = pd.read_pickle('oddlots.pkl')
 #df_odd = pd.DataFrame(columns=['date','title','link','content'])
 for item in doc.findAll(class_='story-list-story__info__headline-link'):
