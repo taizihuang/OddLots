@@ -2,8 +2,8 @@ import requests,os,json
 import pandas as pd
 from bs4 import BeautifulSoup
 
-# os.environ['https_proxy'] = 'http://127.0.0.1:7890'
-# os.environ['http_proxy'] = 'http://127.0.0.1:7890'
+os.environ['https_proxy'] = 'http://127.0.0.1:7890'
+os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 
 headers = {
     'referer': 'https://www.bloomberg.com/oddlots',
@@ -14,7 +14,7 @@ def fetchOddLots(url,title):
     docs = requests.get(url,headers=headers).content
     doc = BeautifulSoup(docs)
     doc1 = BeautifulSoup(json.loads(doc.find('script',{'data-component-props':"ArticleBody"}).string)['story']['body'])
-    doc1.find(class_="thirdparty-embed__container").decompose()
+    # doc1.find(class_="thirdparty-embed__container").decompose()
     html = '''
     <!DOCTYPE html>
     <html>
@@ -81,8 +81,9 @@ df_odd = pd.read_pickle('oddlots.pkl')
 doc = requests.get('https://www.bloomberg.com/lineup/api/lazy_load_paginated_module?id=more_articles_list&offset=0&page=oddlots&zone=switch',headers=headers).content
 link_title = list(set([(a['href'], a.text) for a in BeautifulSoup(json.loads(doc)['html']).findAll('a') if 'transcript' in a['href'] if '\n\n' not in a.text]))
 for link, title in link_title:
-    if len(df_odd.loc[df_odd.title.str.contains(title)]) == 0:
-        df = fetchOddLots('https://www.bloomberg.com'+link, title)
-        df_odd = pd.concat([df, df_odd], ignore_index=True)
-        df_odd.to_pickle('oddlots.pkl')
+    # if len(df_odd.loc[df_odd.title.str.contains(title)]) == 0:
+    df = fetchOddLots('https://www.bloomberg.com'+link, title)
+    df_odd = pd.concat([df, df_odd], ignore_index=True)
+df_odd = df_odd.drop_duplicates(subset=['link']).reset_index(drop=True)
 genHTML(df_odd)
+df_odd.to_pickle('oddlots.pkl')
