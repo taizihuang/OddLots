@@ -34,9 +34,8 @@ def fetchOddLots(url,title):
     '''.format(title=title)
     html = html+str(doc1)+'</body></html>'
 
-    df_odd = pd.DataFrame(columns=['date','title','link','content'])
     date = url.split('/')[5]
-    df_odd = df_odd.append({'date':date,'title':title,'link':url,'content':html},ignore_index=True)
+    df_odd = pd.DataFrame(data={'date':date,'title':title,'link':url,'content':html},index=[0])
 
     return df_odd
 
