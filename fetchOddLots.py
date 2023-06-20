@@ -11,9 +11,10 @@ headers = {
 }
 
 def fetchOddLots(url,title):
+    print(url)
     docs = requests.get(url,headers=headers).content
-    doc = BeautifulSoup(docs)
-    doc1 = BeautifulSoup(json.loads(doc.find('script',{'data-component-props':"ArticleBody"}).string)['story']['body'])
+    doc = BeautifulSoup(docs,features='lxml')
+    doc1 = BeautifulSoup(json.loads(doc.find('script',{'data-component-props':"ArticleBody"}).string)['story']['body'],features='lxml')
     # doc1.find(class_="thirdparty-embed__container").decompose()
     html = '''
     <!DOCTYPE html>
@@ -76,13 +77,13 @@ def genHTML(df_odd):
     with open('./index.html','w',encoding='utf8') as f:
         f.write(indexHTML)
 
-df_odd = pd.read_pickle('oddlots.pkl')
-doc = requests.get('https://www.bloomberg.com/lineup/api/lazy_load_paginated_module?id=more_articles_list&offset=0&page=oddlots&zone=switch',headers=headers).content
-link_title = list(set([(a['href'], a.text) for a in BeautifulSoup(json.loads(doc)['html']).findAll('a') if 'transcript' in a['href'] if '\n\n' not in a.text]))
-for link, title in link_title:
-    # if len(df_odd.loc[df_odd.title.str.contains(title)]) == 0:
-    df = fetchOddLots('https://www.bloomberg.com'+link, title)
-    df_odd = pd.concat([df, df_odd], ignore_index=True)
-df_odd = df_odd.drop_duplicates(subset=['link']).reset_index(drop=True)
-genHTML(df_odd)
-df_odd.to_pickle('oddlots.pkl')
+if __name__ == "__main__":
+    df_odd = pd.read_pickle('oddlots.pkl')
+    doc = requests.get('https://www.bloomberg.com/lineup/api/lazy_load_paginated_module?id=more_articles_list&offset=0&page=oddlots&zone=switch',headers=headers).content
+    link_title = list(set([(a['href'], a.text) for a in BeautifulSoup(json.loads(doc)['html'],features='lxml').findAll('a') if '\n\n' not in a.text])) #if 'transcript' in a['href'] ))
+    for link, title in link_title:
+        df = fetchOddLots('https://www.bloomberg.com'+link, title)
+        df_odd = pd.concat([df, df_odd], ignore_index=True)
+    df_odd = df_odd.loc[df_odd.content.str.contains('Odd Lots')].drop_duplicates(subset=['link']).reset_index(drop=True)
+    genHTML(df_odd)
+    df_odd.to_pickle('oddlots.pkl')
