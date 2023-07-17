@@ -212,3 +212,7 @@ a {
         width: 100%;
     }
 }
+
+br {
+    line-height: 0.5rem;
+}
