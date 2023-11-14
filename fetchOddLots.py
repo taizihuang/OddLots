@@ -1,9 +1,7 @@
-import requests,os,json
+import requests,os,json,platform
 import pandas as pd
 from bs4 import BeautifulSoup
 
-# os.environ['https_proxy'] = 'http://127.0.0.1:7890'
-# os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 
 type_dict = {
     'document': 'body',
@@ -28,7 +26,10 @@ def formatSingle(data_dict):
     elif type == 'br':
         return '<br>'
     elif type == 'embed':
-        return data_dict['iframeData']['html']
+        if 'iframeData' in data_dict.keys():
+            return data_dict['iframeData']['html']
+        else:
+            return f'<div style="left: 0; width: 100%; height: 180px; position: relative;"><iframe src="{data_dict["href"]}" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen></iframe></div>'
     elif type in type_dict.keys():
         return f'<{type_dict[type]}>{data_dict["value"]}</{type_dict[type]}>'
     else:
@@ -118,6 +119,11 @@ def genHTML(df_odd):
         f.write(indexHTML)
 
 if __name__ == "__main__":
+
+    if platform.system() == 'Windows':
+        os.environ['https_proxy'] = 'http://127.0.0.1:7890'
+        os.environ['http_proxy'] = 'http://127.0.0.1:7890'
+
     df_odd = pd.read_pickle('oddlots.pkl')
     doc = requests.get('https://www.bloomberg.com/lineup/api/lazy_load_paginated_module?id=more_articles_list&offset=0&page=oddlots&zone=switch',headers=headers).content
     link_title = list(set([(a['href'], a.text) for a in BeautifulSoup(json.loads(doc)['html'],features='lxml').findAll('a') if '\n\n' not in a.text])) #if 'transcript' in a['href'] ))
